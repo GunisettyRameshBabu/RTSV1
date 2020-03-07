@@ -129,6 +129,18 @@ namespace SCTimeSheet.Controllers
                 {
                     mail.To.Add(new MailAddress(item));
                 }
+                if (!string.IsNullOrEmpty(collection.AdditionalEmails))
+                {
+                    foreach (var item in collection.AdditionalEmails.Split(','))
+                    {
+                        if (!string.IsNullOrEmpty(item))
+                        {
+                            mail.To.Add(new MailAddress(item));
+
+                        }
+                    }
+                }
+                
                 mail.From = new MailAddress(_mailId);
                 mail.CC.Add(new MailAddress(_mailId));
                 mail.Subject = collection.Subject;
