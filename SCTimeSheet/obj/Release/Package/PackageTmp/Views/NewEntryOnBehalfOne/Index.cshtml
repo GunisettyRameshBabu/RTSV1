@@ -56,27 +56,41 @@
         background-color: darkgray;
         color: black;
     }
+
+    span.redColor {
+        color: red !important;
+        font-weight: bold !important;
+        font-size: 20px !important;
+    }
+
+    .k-dialog .k-content {
+        padding-top: 5px !important;
+    }
+
+    .guttertop {
+        padding-top: 10px !important;
+    }
 </style>
 
 @(Html.Kendo().Dialog()
-                .Name("dialog")
-                .Title("Warning")
-                .Visible(false)
-                .Content("<p class='redColor'>Warning: One or more member start date does not start on first of the month or member end date does not end on the last day of the month.<p>" +
-                "<p>Please ensure to enter actual working days between member start date to member end date (exclude public holidays, all leave types, non-working days). </p> <p>Example: </p><p>TS Entry January 2020</p>" +
-    "<p>Public Holiday: 1, 24, 27 Jan 2020</p> <p> Leaves: 28 Jan 2020 </p>" +
-    "<table class='table table-bordered'><tr><th>Member Start Date</th><th>Member End Date</th><th>No of working days from member start date and member end date</th><th>Maximum Working Days in TS Entry</th></tr>" +
+                    .Name("dialog")
+                    .Title("Warning")
+                    .Visible(false)
+                    .Content("<span class='redColor'>Warning: One or more member start date does not start on first of the month or member end date does not end on the last day of the month.</span>" +
+                "<br/><br/><span>Please ensure to enter actual working days between member start date to member end date (exclude public holidays, all leave types, non-working days). </span> <br/><br/><span>Example: </span><br/><br/><span class='guttertop'>TS Entry January 2020</span>" +
+    "<br/><br/><span class='guttertop'>Public Holiday: 1, 24, 27 Jan 2020</span><br/><br/> <span class='guttertop'> Leaves: 28 Jan 2020 </span>" +
+    "<br/><br/><table class='table table-bordered'><tr><th>Member Start Date</th><th>Member End Date</th><th>No of working days from member start date and member end date</th><th>Maximum Working Days in TS Entry</th></tr>" +
     "<tr><td>3 Jan 2020</td><td>31 Mar 2020</td><td>21</td><td>=21-3<br/>=18</td></tr>" +
     "<tr><td>3 Jan 2020</td><td>31 Mar 2020</td><td>21</td><td>=21-3<br/>=18</td></tr>" +
     "<tr><td>3 Jan 2020</td><td>20 Jan 2020</td><td>12</td><td>=12-0<br/>=12</td></tr>" +
     "<tr><td>3 Jan 2020</td><td>20 Jan 2020</td><td>12</td><td>=12-0<br/>=12</td></tr>" +
     "</table>")
-                .Modal(true)
+                    .Modal(true)
 
-                .Actions(actions =>
-                {
-                    actions.Add().Text("OK").Primary(true);
-                })
+                    .Actions(actions =>
+                    {
+                        actions.Add().Text("OK").Primary(true);
+                    })
 )
 <div class="card-body" style="background-color: #fff;border-radius:10px; padding: 10px;padding-bottom:50px;">
     <h5 style="font-size: 26px; color: #646464;"></h5>
@@ -89,25 +103,25 @@
             <label style="color: #646464;">Project Selection</label>
             @*@Html.DropDownListFor(model => model.ProjectID, new SelectList(ViewBag.ProjectList, "ProjectID", "ProjectName"), "--Select Any--", new { @class = "form-control select2", @id = "projectDropDown", style = "width: 100%; background-color: #f6f6f6;border-radius: 9px;" })*@
             @(Html.Kendo().DropDownListFor(x => x.ProjectID)
-                                                       .Name("projectDropDown")
-                                                       .DataTextField("ProjectName")
-                                                       .DataValueField("ProjectID")
-                                                      .OptionLabel("--Select Any--")
-                                                       //.BindTo(ViewBag.ProjectList)
-                                                       .DataSource(source =>
-                                                       {
-                                                           source.Read(read =>
-                                                           {
-                                                               read.Action("GetProjects", "NewEntryOnBehalfOne");
-                                                           });
-                                                       })
-                                                       .Events(e =>
-                                                       {
-                                                           e.Change("onProjectChange");
-                                                       })
-                                                       .Filter("contains")
+                                                               .Name("projectDropDown")
+                                                               .DataTextField("ProjectName")
+                                                               .DataValueField("ProjectID")
+                                                              .OptionLabel("--Select Any--")
+                                                               //.BindTo(ViewBag.ProjectList)
+                                                               .DataSource(source =>
+                                                               {
+                                                                   source.Read(read =>
+                                                                   {
+                                                                       read.Action("GetProjects", "NewEntryOnBehalfOne");
+                                                                   });
+                                                               })
+                                                               .Events(e =>
+                                                               {
+                                                                   e.Change("onProjectChange");
+                                                               })
+                                                               .Filter("contains")
 
-                                                       .HtmlAttributes(new { style = "width: 100%; background-color: #f6f6f6;border-radius: 9px;" })
+                                                               .HtmlAttributes(new { style = "width: 100%; background-color: #f6f6f6;border-radius: 9px;" })
 
 
             )
@@ -120,23 +134,23 @@
             <label style="color: #646464;">Team Member Selection</label>
             @*@Html.DropDownListFor(model => model.EmployeeID, new SelectList(ViewBag.EmployeeList, "EmployeeID", "EmpName"), "--Select Any--", new { @class = "form-control select2", @id = "empDropDown", style = "width: 100%; background-color: #f6f6f6;border-radius: 9px;" })*@
             @(Html.Kendo().DropDownListFor(x => x.EmployeeID)
-                                                               .Name("empDropDown")
-                                                               .DataTextField("EmpName")
-                                                               .DataValueField("EmployeeID")
-                                                               .OptionLabel("--Select Any--")
-                                                               .DataSource(source =>
-                                                       {
-                                                           source.Read(read =>
-                                                           {
-                                                               read.Action("GetMembers", "NewEntryOnBehalfOne");
-                                                           });
-                                                       })
-                                                       .Events(e =>
-                                                       {
-                                                           e.Change("onEmpChange");
-                                                       })
-                                                                .Filter("contains")
-                                                               .HtmlAttributes(new { style = "width: 100%; background-color: #f6f6f6;border-radius: 9px;" })
+                                                                       .Name("empDropDown")
+                                                                       .DataTextField("EmpName")
+                                                                       .DataValueField("EmployeeID")
+                                                                       .OptionLabel("--Select Any--")
+                                                                       .DataSource(source =>
+                                                               {
+                                                                   source.Read(read =>
+                                                                   {
+                                                                       read.Action("GetMembers", "NewEntryOnBehalfOne");
+                                                                   });
+                                                               })
+                                                               .Events(e =>
+                                                               {
+                                                                   e.Change("onEmpChange");
+                                                               })
+                                                                        .Filter("contains")
+                                                                       .HtmlAttributes(new { style = "width: 100%; background-color: #f6f6f6;border-radius: 9px;" })
             )
             @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger" })
         </div>
@@ -145,22 +159,22 @@
             <label style="color: #646464;">Select Quarter</label>
             @*@Html.DropDownListFor(model => model.Quarter, new SelectList(ViewBag.QuarterList, "Value", "Text"), "--Select Quarter--", new { @class = "form-control select2", @id = "quarterDropDown", style = "width: 100%; background-color: #f6f6f6;border-radius: 9px;" })*@
             @(Html.Kendo().DropDownListFor(x => x.Quarter)
-                                                                       .Name("quarterDropDown")
-                                                                       .DataTextField("Text")
-                                                                       .DataValueField("Value")
-                                                                       // .OptionLabel("--Select Quarter--")
-                                                                       .DataSource(source =>
-                                                       {
-                                                           source.Read(read =>
-                                                           {
-                                                               read.Action("GetQuarters", "NewEntryOnBehalfOne");
-                                                           });
-                                                       })
-                                                       .Events(e =>
-                                                       {
-                                                           e.Change("onChangeQuarter");
-                                                       })
-                                                                       .HtmlAttributes(new { style = "width: 100%; background-color: #f6f6f6;border-radius: 9px;" })
+                                                                               .Name("quarterDropDown")
+                                                                               .DataTextField("Text")
+                                                                               .DataValueField("Value")
+                                                                               // .OptionLabel("--Select Quarter--")
+                                                                               .DataSource(source =>
+                                                               {
+                                                                   source.Read(read =>
+                                                                   {
+                                                                       read.Action("GetQuarters", "NewEntryOnBehalfOne");
+                                                                   });
+                                                               })
+                                                               .Events(e =>
+                                                               {
+                                                                   e.Change("onChangeQuarter");
+                                                               })
+                                                                               .HtmlAttributes(new { style = "width: 100%; background-color: #f6f6f6;border-radius: 9px;" })
 
             )
         </div>
@@ -172,86 +186,86 @@
     <div id="example" style="margin-top:10px;">
         <div>
             @(Html.Kendo().Grid<SCTimeSheet_DAL.Models.NewEntryByProjectSelection>()
-                                                .Name("grid")
-                                                .NoRecords(x => x.Template("<div class='empty-grid'></div>"))
-                                                .DataSource(dataSource => dataSource
-                                                    .Ajax()
-                                                    .Batch(true)
-                                                    .PageSize(20)
-                                                    .ServerOperation(false)
-                                                    .Model(model =>
-                                                    {
-                                                        model.Id(p => p.ProjectID);
-                                                        model.Field(p => p.Quarter).Editable(false);
-                                                        model.Field(p => p.ProjectID).Editable(false);
-                                                        model.Field(p => p.StartDate).Editable(false);
-                                                        model.Field(p => p.EndDate).Editable(false);
-                                                        model.Field(p => p.EmployeeID).Editable(false);
-                                                        model.Field(p => p.emp_name).Editable(false);
-                                                        model.Field(p => p.InvolvementDays1).Editable(false);
-                                                        model.Field(p => p.InvolvementDays2).Editable(false);
-                                                        model.Field(p => p.InvolvementDays3).Editable(false);
+                                                        .Name("grid")
+                                                        .NoRecords(x => x.Template("<div class='empty-grid'></div>"))
+                                                        .DataSource(dataSource => dataSource
+                                                            .Ajax()
+                                                            .Batch(true)
+                                                            .PageSize(20)
+                                                            .ServerOperation(false)
+                                                            .Model(model =>
+                                                            {
+                                                                model.Id(p => p.ProjectID);
+                                                                model.Field(p => p.Quarter).Editable(false);
+                                                                model.Field(p => p.ProjectID).Editable(false);
+                                                                model.Field(p => p.StartDate).Editable(false);
+                                                                model.Field(p => p.EndDate).Editable(false);
+                                                                model.Field(p => p.EmployeeID).Editable(false);
+                                                                model.Field(p => p.emp_name).Editable(false);
+                                                                model.Field(p => p.InvolvementDays1).Editable(false);
+                                                                model.Field(p => p.InvolvementDays2).Editable(false);
+                                                                model.Field(p => p.InvolvementDays3).Editable(false);
 
-                                                    })
-                                                    .Read(read => read
-                                                        .Action("GetProjectList", "NewEntryOnBehalfOne") //Set the action method which will return the data in JSON format.
-                                                        .Data("SortByProjectId") //Specify the JavaScript function which will return the data.
-                                                    )
-                                                )
-                                                .Columns(columns =>
-                                                {
-                                                columns.Template(@<text></text>).ClientTemplate("#if (data.IsEdit1 || data.IsEdit2 || data.IsEdit3) " +
-                                                       "{# <input type='checkbox' class='checkbox' /> #}" +
-                                                       "else {# <input type='checkbox' class='checkbox1' disabled /> #}#").Width(20).HeaderTemplate("<input id='headerCheckBox' style='cursor: pointer;' type='checkbox' onclick='selectAllItems(this);' />");
-                                                    columns.Bound(product => product.emp_name).Width(250);
-                                                    columns.Bound(product => product.StartDate).Format("{0:dd MMM yyyy}").Width(75);
-                                                    columns.Bound(product => product.EndDate).Format("{0:dd MMM yyyy}").Width(75);
-                                                    columns.Group(group => group
-                                                .Title(Model.Month1)
-                                                 .HeaderHtmlAttributes(new { @id = "grpMonth1" })
-                                                .Columns(info =>
-                                                {
-                                                    info.Bound(x => x.InvolvementDays1).Width(20).ClientTemplate("<div align='center' style = 'width:100%;background-color:lightgray;'># if(data.InvolvementDays1 == 0 && !data.IsEdit1) " +
-                                                           "{# #}" +
-                                                           "else {# #=round(InvolvementDays1,1)# #}#</div>");
-                                                    info.Bound(x => x.InvolvementEditDays1).Editable("involvementDays1Editable").Width(20).ClientTemplate("<div data-toggle='tooltip' data-html='true' title='#= OldInvolvementEditDays1 #' align='center' style='width:100%' class=' #: getStatus(data,1) #'># if(data.InvolvementDays1 == 0 && data.InvolvementEditDays1 == 0 && !data.IsEdit1) " +
-                                                           "{# #}" +
-                                                           "else {# #=round(InvolvementEditDays1,1)# #}#</div>");
-                                                })
-                                            );
-                                                    columns.Group(group => group
-                                                        .Title(Model.Month2)
-                                                         .HeaderHtmlAttributes(new { @id = "grpMonth2" })
+                                                            })
+                                                            .Read(read => read
+                                                                .Action("GetProjectList", "NewEntryOnBehalfOne") //Set the action method which will return the data in JSON format.
+                                                                .Data("SortByProjectId") //Specify the JavaScript function which will return the data.
+                                                            )
+                                                        )
+                                                        .Columns(columns =>
+                                                        {
+                                                            columns.Template(@<text></text>).ClientTemplate("#if (data.IsEdit1 || data.IsEdit2 || data.IsEdit3) " +
+                                                               "{# <input type='checkbox' class='checkbox' /> #}" +
+                                                               "else {# <input type='checkbox' class='checkbox1' disabled /> #}#").Width(20).HeaderTemplate("<input id='headerCheckBox' style='cursor: pointer;' type='checkbox' onclick='selectAllItems(this);' />");
+                                                            columns.Bound(product => product.emp_name).Width(250);
+                                                            columns.Bound(product => product.StartDate).Format("{0:dd MMM yyyy}").Width(75);
+                                                            columns.Bound(product => product.EndDate).Format("{0:dd MMM yyyy}").Width(75);
+                                                            columns.Group(group => group
+                                                        .Title(Model.Month1)
+                                                         .HeaderHtmlAttributes(new { @id = "grpMonth1" })
                                                         .Columns(info =>
                                                         {
-                                                            info.Bound(x => x.InvolvementDays2).Format("{0:##:#}").Width(20).ClientTemplate("<div align='center' style = 'width:100%;background-color:lightgray;'># if(data.InvolvementDays2 == 0 && !data.IsEdit2) " +
+                                                            info.Bound(x => x.InvolvementDays1).Width(20).ClientTemplate("<div align='center' style = 'width:100%;background-color:lightgray;'># if(data.InvolvementDays1 == 0 && !data.IsEdit1) " +
                                                                    "{# #}" +
-                                                                   "else {# #= kendo.toString(round(InvolvementDays2,1), \"n2\") # #}#</div>");
-                                                            info.Bound(x => x.InvolvementEditDays2).Editable("involvementDays2Editable").Width(20).ClientTemplate("<div data-toggle='tooltip' data-html='true' title='#= OldInvolvementEditDays2 #' align='center' style = 'width:100%' class=' #: getStatus(data,2) #'># if(data.InvolvementDays2 == 0 && data.InvolvementEditDays2 == 0 && !data.IsEdit2) " +
-                                                                       "{# #}" +
-                                                                       "else {# #= kendo.toString(round(InvolvementEditDays2,1), \"n2\") # #}#</div>");
-                                                        })
-                                                        );
-                                                    columns.Group(group => group
-                                                        .Title(Model.Month3)
-                                                         .HeaderHtmlAttributes(new { @id = "grpMonth3" })
-                                                        .Columns(info =>
-                                                        {
-                                                            info.Bound(x => x.InvolvementDays3).Width(20).ClientTemplate("<div align='center' style = 'width:100%;background-color:lightgray;'># if(data.InvolvementDays3 == 0 && !data.IsEdit3) " +
+                                                                   "else {# #=round(InvolvementDays1,1)# #}#</div>");
+                                                            info.Bound(x => x.InvolvementEditDays1).Editable("involvementDays1Editable").Width(20).ClientTemplate("<div data-toggle='tooltip' data-html='true' title='#= OldInvolvementEditDays1 #' align='center' style='width:100%' class=' #: getStatus(data,1) #'># if(data.InvolvementDays1 == 0 && data.InvolvementEditDays1 == 0 && !data.IsEdit1) " +
                                                                    "{# #}" +
-                                                                   "else {# #=round(InvolvementDays3,1)# #}#</div>");
-                                                            info.Bound(x => x.InvolvementEditDays3).Editable("involvementDays3Editable").Width(20).ClientTemplate("<div data-toggle='tooltip' data-html='true' title='#= OldInvolvementEditDays3 #' align='center' style = 'width:100%' class=' #: getStatus(data,3) #'># if(data.InvolvementDays3 == 0 && data.InvolvementEditDays3 == 0 && !data.IsEdit3) " +
-                                                                   "{# #}" +
-                                                                   "else {# #=round(InvolvementEditDays3,1)# #}#</div>");
+                                                                   "else {# #=round(InvolvementEditDays1,1)# #}#</div>");
                                                         })
                                                     );
-                                                })
-                                    .HtmlAttributes(new { @id = "grid" })
-                                .AutoBind(false)
-                                .Editable(editable => editable.Mode(GridEditMode.InCell))
-                                .Pageable()
-                                 .Sortable(x => x.SortMode(GridSortMode.SingleColumn).AllowUnsort(false))
-                                 .Events(ev => ev.DataBound("db"))
+                                                            columns.Group(group => group
+                                                                .Title(Model.Month2)
+                                                                 .HeaderHtmlAttributes(new { @id = "grpMonth2" })
+                                                                .Columns(info =>
+                                                                {
+                                                                    info.Bound(x => x.InvolvementDays2).Format("{0:##:#}").Width(20).ClientTemplate("<div align='center' style = 'width:100%;background-color:lightgray;'># if(data.InvolvementDays2 == 0 && !data.IsEdit2) " +
+                                                                           "{# #}" +
+                                                                           "else {# #= kendo.toString(round(InvolvementDays2,1), \"n2\") # #}#</div>");
+                                                                    info.Bound(x => x.InvolvementEditDays2).Editable("involvementDays2Editable").Width(20).ClientTemplate("<div data-toggle='tooltip' data-html='true' title='#= OldInvolvementEditDays2 #' align='center' style = 'width:100%' class=' #: getStatus(data,2) #'># if(data.InvolvementDays2 == 0 && data.InvolvementEditDays2 == 0 && !data.IsEdit2) " +
+                                                                               "{# #}" +
+                                                                               "else {# #= kendo.toString(round(InvolvementEditDays2,1), \"n2\") # #}#</div>");
+                                                                })
+                                                                );
+                                                            columns.Group(group => group
+                                                                .Title(Model.Month3)
+                                                                 .HeaderHtmlAttributes(new { @id = "grpMonth3" })
+                                                                .Columns(info =>
+                                                                {
+                                                                    info.Bound(x => x.InvolvementDays3).Width(20).ClientTemplate("<div align='center' style = 'width:100%;background-color:lightgray;'># if(data.InvolvementDays3 == 0 && !data.IsEdit3) " +
+                                                                           "{# #}" +
+                                                                           "else {# #=round(InvolvementDays3,1)# #}#</div>");
+                                                                    info.Bound(x => x.InvolvementEditDays3).Editable("involvementDays3Editable").Width(20).ClientTemplate("<div data-toggle='tooltip' data-html='true' title='#= OldInvolvementEditDays3 #' align='center' style = 'width:100%' class=' #: getStatus(data,3) #'># if(data.InvolvementDays3 == 0 && data.InvolvementEditDays3 == 0 && !data.IsEdit3) " +
+                                                                           "{# #}" +
+                                                                           "else {# #=round(InvolvementEditDays3,1)# #}#</div>");
+                                                                })
+                                                            );
+                                                        })
+                                            .HtmlAttributes(new { @id = "grid" })
+                                        .AutoBind(false)
+                                        .Editable(editable => editable.Mode(GridEditMode.InCell))
+                                        .Pageable()
+                                         .Sortable(x => x.SortMode(GridSortMode.SingleColumn).AllowUnsort(false))
+                                         .Events(ev => ev.DataBound("db"))
             )
 
             @* <a href="#" class="k-button" id="update" >Submit</a>*@
@@ -268,86 +282,86 @@
     <div id="empDiv" style="margin-top:10px;">
         <div>
             @(Html.Kendo().Grid<SCTimeSheet_DAL.Models.NewEntryByProjectSelection>()
-                                                .Name("empGrid")
-                                                .NoRecords(x => x.Template("<div class='empty-grid'></div>"))
-                                                .DataSource(dataSource => dataSource
-                                                    .Ajax()
-                                                    .Batch(true)
-                                                    .PageSize(20)
-                                                    .ServerOperation(false)
-                                                    .Model(model =>
-                                                    {
-                                                        model.Id(p => p.ProjectID);
-                                                        model.Field(p => p.ProjectID).Editable(false);
-                                                        model.Field(p => p.StartDate).Editable(false);
-                                                        model.Field(p => p.EndDate).Editable(false);
-                                                        model.Field(p => p.ProjectName).Editable(false);
-                                                        model.Field(p => p.EmployeeID).Editable(false);
-                                                        model.Field(p => p.emp_name).Editable(false);
-                                                        model.Field(p => p.InvolvementDays1).Editable(false);
-                                                        model.Field(p => p.InvolvementDays2).Editable(false);
-                                                        model.Field(p => p.InvolvementDays3).Editable(false);
-                                                    })
-                                                    .Read(read => read
-                                                        .Action("GetEmpList", "NewEntryOnBehalfOne") //Set the action method which will return the data in JSON format.
-                                                        .Data("SortByEmpId") //Specify the JavaScript function which will return the data.
-                                                    )
-                                                )
-                                                .Columns(columns =>
-                                                {
-                                                columns.Template(@<text></text>).ClientTemplate(
-                                                "#if (data.IsEdit1 || data.IsEdit2 || data.IsEdit3) " +
-                                                       "{# <input type='checkbox' class='checkbox' /> #}" +
-                                                       "else {# <input type='checkbox' class='checkbox1' disabled /> #}#").Width(20).HeaderTemplate("<input id='headerCheckBox' style='cursor: pointer;' type='checkbox' onclick='selectAllEmpItems(this);' />");
-                                                    columns.Bound(product => product.ProjectName).Width(250);
-                                                    columns.Bound(product => product.StartDate).Format("{0:dd MMM yyyy}").Width(75);
-                                                    columns.Bound(product => product.EndDate).Format("{0:dd MMM yyyy}").Width(75);
-                                                    columns.Group(group => group
-                                                    .Title(Model.Month1)
-                                                     .HeaderHtmlAttributes(new { @id = "grpMonth1" })
-                                                    .Columns(info =>
-                                                    {
-                                                        info.Bound(x => x.InvolvementDays1).Width(20).ClientTemplate("<div align='center' style = 'width:100%;background-color:lightgray;'># if(data.InvolvementDays1 == 0 && !data.IsEdit1) " +
-                                                               "{# #}" +
-                                                               "else {# #=round(InvolvementDays1,1)# #}#</div>");
-                                                        info.Bound(x => x.InvolvementEditDays1).Editable("involvementDays1Editable").Width(20).ClientTemplate("<div data-toggle='tooltip' data-html='true' title='#= OldInvolvementEditDays1 #' align='center' style='width:100%' class=' #: getStatus(data,1) #'># if(data.InvolvementDays1 == 0 && data.InvolvementEditDays1 == 0 && !data.IsEdit1) " +
-                                                               "{# #}" +
-                                                               "else {# #=round(InvolvementEditDays1,1)# #}#</div>");
-                                                    })
-                                                );
-                                                    columns.Group(group => group
-                                                        .Title(Model.Month2)
-                                                         .HeaderHtmlAttributes(new { @id = "grpMonth2" })
-                                                        .Columns(info =>
+                                                        .Name("empGrid")
+                                                        .NoRecords(x => x.Template("<div class='empty-grid'></div>"))
+                                                        .DataSource(dataSource => dataSource
+                                                            .Ajax()
+                                                            .Batch(true)
+                                                            .PageSize(20)
+                                                            .ServerOperation(false)
+                                                            .Model(model =>
+                                                            {
+                                                                model.Id(p => p.ProjectID);
+                                                                model.Field(p => p.ProjectID).Editable(false);
+                                                                model.Field(p => p.StartDate).Editable(false);
+                                                                model.Field(p => p.EndDate).Editable(false);
+                                                                model.Field(p => p.ProjectName).Editable(false);
+                                                                model.Field(p => p.EmployeeID).Editable(false);
+                                                                model.Field(p => p.emp_name).Editable(false);
+                                                                model.Field(p => p.InvolvementDays1).Editable(false);
+                                                                model.Field(p => p.InvolvementDays2).Editable(false);
+                                                                model.Field(p => p.InvolvementDays3).Editable(false);
+                                                            })
+                                                            .Read(read => read
+                                                                .Action("GetEmpList", "NewEntryOnBehalfOne") //Set the action method which will return the data in JSON format.
+                                                                .Data("SortByEmpId") //Specify the JavaScript function which will return the data.
+                                                            )
+                                                        )
+                                                        .Columns(columns =>
                                                         {
-                                                            info.Bound(x => x.InvolvementDays2).Width(20).ClientTemplate("<div align='center' style = 'width:100%;background-color:lightgray;'># if(data.InvolvementDays2 == 0 && !data.IsEdit2) " +
-                                                                   "{# #}" +
-                                                                   "else {# #=round(InvolvementDays2,1)# #}#</div>");
-                                                            info.Bound(x => x.InvolvementEditDays2).Editable("involvementDays2Editable").Width(20).ClientTemplate("<div data-toggle='tooltip' data-html='true' title='#= OldInvolvementEditDays2 #' align='center' style = 'width:100%' class=' #: getStatus(data,2) #'># if(data.InvolvementDays2 == 0 && data.InvolvementEditDays2 == 0 && !data.IsEdit2) " +
+                                                            columns.Template(@<text></text>).ClientTemplate(
+                                                        "#if (data.IsEdit1 || data.IsEdit2 || data.IsEdit3) " +
+                                                               "{# <input type='checkbox' class='checkbox' /> #}" +
+                                                               "else {# <input type='checkbox' class='checkbox1' disabled /> #}#").Width(20).HeaderTemplate("<input id='headerCheckBox' style='cursor: pointer;' type='checkbox' onclick='selectAllEmpItems(this);' />");
+                                                            columns.Bound(product => product.ProjectName).Width(250);
+                                                            columns.Bound(product => product.StartDate).Format("{0:dd MMM yyyy}").Width(75);
+                                                            columns.Bound(product => product.EndDate).Format("{0:dd MMM yyyy}").Width(75);
+                                                            columns.Group(group => group
+                                                            .Title(Model.Month1)
+                                                             .HeaderHtmlAttributes(new { @id = "grpMonth1" })
+                                                            .Columns(info =>
+                                                            {
+                                                                info.Bound(x => x.InvolvementDays1).Width(20).ClientTemplate("<div align='center' style = 'width:100%;background-color:lightgray;'># if(data.InvolvementDays1 == 0 && !data.IsEdit1) " +
                                                                        "{# #}" +
-                                                                       "else {# #=round(InvolvementEditDays2,1)# #}#</div>");
-                                                        })
+                                                                       "else {# #=round(InvolvementDays1,1)# #}#</div>");
+                                                                info.Bound(x => x.InvolvementEditDays1).Editable("involvementDays1Editable").Width(20).ClientTemplate("<div data-toggle='tooltip' data-html='true' title='#= OldInvolvementEditDays1 #' align='center' style='width:100%' class=' #: getStatus(data,1) #'># if(data.InvolvementDays1 == 0 && data.InvolvementEditDays1 == 0 && !data.IsEdit1) " +
+                                                                       "{# #}" +
+                                                                       "else {# #=round(InvolvementEditDays1,1)# #}#</div>");
+                                                            })
                                                         );
-                                                    columns.Group(group => group
-                                                        .Title(Model.Month3)
-                                                         .HeaderHtmlAttributes(new { @id = "grpMonth3" })
-                                                        .Columns(info =>
-                                                        {
-                                                            info.Bound(x => x.InvolvementDays3).Width(20).ClientTemplate("<div align='center' style = 'width:100%;background-color:lightgray;'># if(data.InvolvementDays3 == 0 && !data.IsEdit3) " +
-                                                                   "{# #}" +
-                                                                   "else {# #=round(InvolvementDays3,1)# #}#</div>");
-                                                            info.Bound(x => x.InvolvementEditDays3).Editable("involvementDays3Editable").Width(20).ClientTemplate("<div data-toggle='tooltip' data-html='true' title='#= OldInvolvementEditDays3 #' align='center' style = 'width:100%' class=' #: getStatus(data,3) #'># if(data.InvolvementDays3 == 0 && data.InvolvementEditDays3 == 0 && !data.IsEdit3) " +
-                                                                   "{# #}" +
-                                                                   "else {# #=round(InvolvementEditDays3,1)# #}#</div>");
+                                                            columns.Group(group => group
+                                                                .Title(Model.Month2)
+                                                                 .HeaderHtmlAttributes(new { @id = "grpMonth2" })
+                                                                .Columns(info =>
+                                                                {
+                                                                    info.Bound(x => x.InvolvementDays2).Width(20).ClientTemplate("<div align='center' style = 'width:100%;background-color:lightgray;'># if(data.InvolvementDays2 == 0 && !data.IsEdit2) " +
+                                                                           "{# #}" +
+                                                                           "else {# #=round(InvolvementDays2,1)# #}#</div>");
+                                                                    info.Bound(x => x.InvolvementEditDays2).Editable("involvementDays2Editable").Width(20).ClientTemplate("<div data-toggle='tooltip' data-html='true' title='#= OldInvolvementEditDays2 #' align='center' style = 'width:100%' class=' #: getStatus(data,2) #'># if(data.InvolvementDays2 == 0 && data.InvolvementEditDays2 == 0 && !data.IsEdit2) " +
+                                                                               "{# #}" +
+                                                                               "else {# #=round(InvolvementEditDays2,1)# #}#</div>");
+                                                                })
+                                                                );
+                                                            columns.Group(group => group
+                                                                .Title(Model.Month3)
+                                                                 .HeaderHtmlAttributes(new { @id = "grpMonth3" })
+                                                                .Columns(info =>
+                                                                {
+                                                                    info.Bound(x => x.InvolvementDays3).Width(20).ClientTemplate("<div align='center' style = 'width:100%;background-color:lightgray;'># if(data.InvolvementDays3 == 0 && !data.IsEdit3) " +
+                                                                           "{# #}" +
+                                                                           "else {# #=round(InvolvementDays3,1)# #}#</div>");
+                                                                    info.Bound(x => x.InvolvementEditDays3).Editable("involvementDays3Editable").Width(20).ClientTemplate("<div data-toggle='tooltip' data-html='true' title='#= OldInvolvementEditDays3 #' align='center' style = 'width:100%' class=' #: getStatus(data,3) #'># if(data.InvolvementDays3 == 0 && data.InvolvementEditDays3 == 0 && !data.IsEdit3) " +
+                                                                           "{# #}" +
+                                                                           "else {# #=round(InvolvementEditDays3,1)# #}#</div>");
+                                                                })
+                                                            );
                                                         })
-                                                    );
-                                                })
-                                .HtmlAttributes(new { @id = "empGrid" })
-                                .AutoBind(false)
-                                .Editable(editable => editable.Mode(GridEditMode.InCell))
-                                .Pageable()
-                                .Sortable(x => x.SortMode(GridSortMode.SingleColumn).AllowUnsort(false))
-                                .Events(ev => ev.DataBound("db"))
+                                        .HtmlAttributes(new { @id = "empGrid" })
+                                        .AutoBind(false)
+                                        .Editable(editable => editable.Mode(GridEditMode.InCell))
+                                        .Pageable()
+                                        .Sortable(x => x.SortMode(GridSortMode.SingleColumn).AllowUnsort(false))
+                                        .Events(ev => ev.DataBound("db"))
             )
 
             @* <a href="#" class="k-button" id="update" >Submit</a>*@
@@ -366,39 +380,39 @@
     <h3>Submitted Timesheet</h3>
 
     @(Html.Kendo().Grid<SCTimeSheet_DAL.Models.NewEntryList>()
-                                                                                                                                     .Name("TimeSheetGrid")
-                                                                                                                                     .DataSource(dataSource => dataSource
-                                                                                                                                         .Ajax()
-                                                                                                                                         .Batch(true)
-                                                                                                                                         .PageSize(20)
-                                                                                                                                         .ServerOperation(true)
+                                                                                                                                             .Name("TimeSheetGrid")
+                                                                                                                                             .DataSource(dataSource => dataSource
+                                                                                                                                                 .Ajax()
+                                                                                                                                                 .Batch(true)
+                                                                                                                                                 .PageSize(20)
+                                                                                                                                                 .ServerOperation(true)
 
-                                                                                                                                         .Read(read => read
-                                                                                                                                             .Action("Read", "NewEntryOnBehalfOne")
+                                                                                                                                                 .Read(read => read
+                                                                                                                                                     .Action("Read", "NewEntryOnBehalfOne")
 
-                                                                                                                                         )
-                                                                                                                                     )
+                                                                                                                                                 )
+                                                                                                                                             )
 
-                                                                                                                                     .Columns(columns =>
-                                                                                                                                     {
-                                                                                                                                         columns.Bound(product => product.ItemNo).Title("S.No");
-                                                                                                                                         columns.Bound(p => p.RefNo).Title("Ref.No");
-                                                                                                                                         columns.Bound(product => product.ProjectName).Title("Project");
-                                                                                                                                         columns.Bound(product => product.Employee).Title("Employee");
-                                                                                                                                         columns.Bound(product => product.SubmittedBy).Title("Submitted By");
-                                                                                                                                         columns.Bound(product => product.InvolveMonth).Title("Period");
-                                                                                                                                         columns.Bound(product => product.InvolvePercent).Title("% of Involvement");
-                                                                                                                             // columns.Bound(product => product.Quard).Title("Submission");
-                                                                                                                             columns.Template(product => "").Title("Submission").ClientTemplate("#= getSubmissionString(data) #").Width(60);
-                                                                                                                                         columns.Bound(product => product.CreatedOn).Title("Date of Submission").Format("{0:dd MMM yyyy}");
+                                                                                                                                             .Columns(columns =>
+                                                                                                                                             {
+                                                                                                                                                 columns.Bound(product => product.ItemNo).Title("S.No");
+                                                                                                                                                 columns.Bound(p => p.RefNo).Title("Ref.No");
+                                                                                                                                                 columns.Bound(product => product.ProjectName).Title("Project");
+                                                                                                                                                 columns.Bound(product => product.Employee).Title("Employee");
+                                                                                                                                                 columns.Bound(product => product.SubmittedBy).Title("Submitted By");
+                                                                                                                                                 columns.Bound(product => product.InvolveMonth).Title("Period");
+                                                                                                                                                 columns.Bound(product => product.InvolvePercent).Title("% of Involvement");
+                                                                                                                                     // columns.Bound(product => product.Quard).Title("Submission");
+                                                                                                                                     columns.Template(product => "").Title("Submission").ClientTemplate("#= getSubmissionString(data) #").Width(60);
+                                                                                                                                                 columns.Bound(product => product.CreatedOn).Title("Date of Submission").Format("{0:dd MMM yyyy}");
 
-                                                                                                                                         columns.Template(product => "").Title("Status").ClientTemplate("#= getStatusDesc(StatusDesc) #");
+                                                                                                                                                 columns.Template(product => "").Title("Status").ClientTemplate("#= getStatusDesc(StatusDesc) #");
 
 
-                                                                                                                                     })
-                                                                                                                                     .NoRecords(x => x.Template("<div class='empty-grid'></div>"))
-                                                                                                                                 .Pageable()
-                                                                                                                                 .Sortable(x => x.SortMode(GridSortMode.SingleColumn).AllowUnsort(false))
+                                                                                                                                             })
+                                                                                                                                             .NoRecords(x => x.Template("<div class='empty-grid'></div>"))
+                                                                                                                                         .Pageable()
+                                                                                                                                         .Sortable(x => x.SortMode(GridSortMode.SingleColumn).AllowUnsort(false))
 
     )
 </div>
